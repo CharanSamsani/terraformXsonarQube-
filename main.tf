@@ -68,13 +68,15 @@ resource "aws_security_group" "new_sg" {
     }
     ]
 
-    egress = {
+    egress = [
+    {
         description = "Allow all"
         from_port = 0
         to_port = 0
         protocol = "-1"
         cidr_block = ["0.0.0.0/0"]
     }
+    ]
 }
 
 resource "aws_instance" "new_instance" {
