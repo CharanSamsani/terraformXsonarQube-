@@ -51,6 +51,10 @@ resource "aws_security_group" "new_sg" {
         to_port = 80
         protocol = "tcp"
         cidr_blocks = ["0.0.0.0/0"]
+        ipv6_cidr_blocks = []
+        prefix_list_ids = []
+        security_groups = []
+        self = false
     },
     {
         description = "SSH from VPC"
@@ -58,6 +62,10 @@ resource "aws_security_group" "new_sg" {
         to_port = 22
         protocol = "tcp"
         cidr_blocks = ["0.0.0.0/0"]
+        ipv6_cidr_blocks = []
+        prefix_list_ids = []
+        security_groups = []
+        self = false
     },
     {
         description = "SonarQube"
@@ -65,16 +73,24 @@ resource "aws_security_group" "new_sg" {
         to_port = 9000
         protocol = "tcp"
         cidr_blocks = ["0.0.0.0/0"]
+        ipv6_cidr_blocks = []
+        prefix_list_ids = []
+        security_groups = []
+        self = false
     }
     ]
 
-    egress = [
+    egress = [ 
     {
-        description = "Allow all"
+        description = "outbounds"
         from_port = 0
         to_port = 0
         protocol = "-1"
         cidr_blocks = ["0.0.0.0/0"]
+        ipv6_cidr_blocks = []
+        prefix_list_ids = []
+        security_groups = []
+        self = false
     }
     ]
 }
@@ -85,7 +101,7 @@ resource "aws_instance" "new_instance" {
   }
   ami = "ami-0a5ac53f63249fba0"
   instance_type = var.instance_type
-  key_name = aws_key_pair.new_key_pair.key_pair_id
+  key_name = aws_key_pair.new_key_pair.key_name
   subnet_id = aws_subnet.new_subnet.id
   vpc_security_group_ids = [aws_security_group.new_sg.id]
 
@@ -96,9 +112,9 @@ resource "aws_instance" "new_instance" {
   sudo yum install wget -y
   sudo yum install unzip -y
   sudo yum install git
-  sudo yum install java-17-amazon-corretto
+  sudo apt install openjdk-17-jre -y
   sudo cd /opt
-  sudo wget -p /opt "https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-9.8.0.63668.zip"
+  sudo wget -P /opt "https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-9.8.0.63668.zip"
   sudo unzip sonarqube-9.8.0.63668.zip -C /opt
   sudo rm -rf sonarqube-9.8.0.63668.zip 
   sudo mv sonarqube-9.8.0.63668 sonarQube
@@ -106,6 +122,6 @@ resource "aws_instance" "new_instance" {
   sudo useradd sonar
   sudo chown sonar:sonar /opt/sonarQube
   sudo su - sonar
-  sudo ./sonar.sh start
+  su - sonar -c "/opt/sonarQube/bin/linux-x86-64/sonar.sh start"
   EOF
 }
