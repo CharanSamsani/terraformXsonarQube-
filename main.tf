@@ -105,8 +105,8 @@ resource "aws_instance" "new_instance" {
 
   user_data = <<-EOF
   #!/bin/bash
-  sudo apt update -y
-  sudo apt upgrade -y
+  sudo yum update -y
+  sudo yum upgrade -y
   sudo yum install wget -y
   sudo yum install unzip -y
   sudo yum install git
