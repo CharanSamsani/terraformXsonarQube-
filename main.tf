@@ -80,8 +80,7 @@ resource "aws_security_group" "new_sg" {
     }
     ]
 
-    egress = [ 
-    {
+    egress = {
         description = "outbounds"
         from_port = 0
         to_port = 0
@@ -92,7 +91,6 @@ resource "aws_security_group" "new_sg" {
         security_groups = []
         self = false
     }
-    ]
 }
 
 resource "aws_instance" "new_instance" {
@@ -119,9 +117,6 @@ resource "aws_instance" "new_instance" {
   sudo rm -rf sonarqube-9.8.0.63668.zip 
   sudo mv sonarqube-9.8.0.63668 sonarQube
   sudo cd /opt/sonarQube/bin/linux-x86-64
-  sudo useradd sonar
-  sudo chown sonar:sonar /opt/sonarQube
-  sudo su - sonar
-  su - sonar -c "/opt/sonarQube/bin/linux-x86-64/sonar.sh start"
+  sudo ~/.sonar.sh start"
   EOF
 }
