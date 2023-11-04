@@ -6,7 +6,7 @@ variable "cidr" {
 variable "username" {
   description = "The user for the ec2"
   default = "ec2-user"
-}
+} 
 
 variable "instance_type" {
   description = "The instance type you want to use"
