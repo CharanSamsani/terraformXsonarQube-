@@ -4,7 +4,7 @@ resource "aws_key_pair" "new_key_pair" {
 }
 
 resource "aws_vpc" "new_vpc" {
-  tags = {
+  tags = { 
     Name = "vpc_1" 
   }
   cidr_block = var.cidr
