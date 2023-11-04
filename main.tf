@@ -12,7 +12,7 @@ resource "aws_vpc" "new_vpc" {
 
 resource "aws_subnet" "new_subnet" {
   tags = {
-    Name = "subnet_1"
+    Name = "subnet_1" 
   }
   vpc_id = aws_vpc.new_vpc.id
   availability_zone = "ap-south-1a"
